@@ -1,31 +1,42 @@
-// add icons
-$('.playspace').append('<i class="em em-rooster"></i>');
-$('.playspace').append('<i class="fa fa-futbol-o"></i>');
+var code = ['i','d','d','q','d'];
 
 
-// set the initial positions
+// Add the icons
+for (var i in code) {
+	$('.playspace').append('<i class="hidden em key-' + code[i] + 
+		'" id="type-' + i + '"></i>');
+	$('#type-' + i).css({
+		top: Math.random() * 400,
+		left: Math.random() * 600
+	});
+}
 
-$('.em-rooster').css({
-  top: 200,
-  left: 300
-});
+function calcCentered(index) {
+	var width = (code.length + 1) * 64;
+	return 300 - width / 2 + index * 64;
+}
 
-$('.fa-futbol-o').css({
-  top: 210,
-  left: 100
-});
+$('.playspace').append('<i class="hidden em em-godmode"></i>');
+$('.em-godmode').css({
+	top: 200 - 32,
+	left: calcCentered(code.length)
+})
 
+var codeItem = 0;
+function animate() {
+	var current = codeItem;
+	codeItem++;
+	if (current < code.length) {
+		$('#' + 'type-' + current).animate({
+			opacity: 1.0,
+			top: 200 - 32,
+			left: calcCentered(current)
+		}, 1000, animate);
+	} else {
+		$('.em-godmode').animate({
+			opacity: 1.0
+		}, 2000);
+	}
+}
 
-// play!
-
-$('.em-rooster').animate({
-  left: 50
-}, 1000);
-
-// after 660ms...
-setTimeout(function() {
-  // ...move the ball
-  $('.fa-futbol-o').animate({
-    left: 0
-  }, 800, 'easeOutQuart');
-}, 660);
+animate();
